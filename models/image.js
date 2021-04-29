@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      models.image.belongsToMany(models.user, {through:models.userFavorite})
+      models.image.belongsToMany(models.user, {through:'userFavorite'})
       // define association here
     }
   };
