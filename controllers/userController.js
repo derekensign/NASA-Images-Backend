@@ -1,6 +1,5 @@
 const model = require('../models')
 const jwt = require('jsonwebtoken')
-const user = require('../models/user')
 const userController = {}
 
 userController.create = async(req,res) => {
@@ -27,15 +26,17 @@ userController.login = async (req,res) => {
     try {
         let user = await model.user.findOne({
             where: {
-                email: req.body.email
+                email: req.body.email,
             }
         })
+        console.log(user.id)
         const encryptedId = jwt.sign({userId: user.id}, process.env.JWT_SECRET)
+        console.log(encryptedId)
         if(user.password === req.body.password) {
             res.json({
-                user,
-                encryptedId
-                
+                message: 'sign in successful',
+                user: user,
+                userId: encryptedId
             })
         } else {
             res.status(401)
