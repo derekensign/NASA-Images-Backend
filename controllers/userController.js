@@ -70,4 +70,19 @@ userController.getInfo = async (req, res) => {
     console.log('decryption succeeded')
 }
 
+userController.authCheck = async (req,res) => {
+    try {
+        const encryptedId = req.headers.authorization
+        const decryptedId = await jwt.verify(encryptedId, process.env.JWT_SECRET)
+        const user = await model.user.findOne({
+        where: {
+            id: decryptedId.userId
+        }
+    })
+    res.json({user: user.id})
+    } catch (error) {
+        res.json({message: 'not verified'})
+    }
+}
+
 module.exports = userController
