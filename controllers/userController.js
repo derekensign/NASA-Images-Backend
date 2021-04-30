@@ -1,5 +1,6 @@
 const model = require('../models')
 const jwt = require('jsonwebtoken')
+const user = require('../models/user')
 const userController = {}
 
 userController.create = async(req,res) => {
@@ -21,6 +22,31 @@ userController.create = async(req,res) => {
         })
     }
 }
+
+userController.login = async (req,res) => {
+    try {
+        let user = await model.user.findOne({
+            where: {
+                email: req.body.email
+            }
+        })
+        const encryptedId = jwt.sign({userId: user.id}, process.env.JWT_SECRET)
+        if(user.password === req.body.password) {
+            res.json({
+                user,
+                encryptedId
+                
+            })
+        } else {
+            res.status(401)
+            res.json({error: 'incorrect password'})
+        }
+    } catch (error) {
+        res.status(400)
+        res.json({ error: 'login failed'})
+    }
+}
+
 
 userController.getInfo = async (req, res) => {
     try{
