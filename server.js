@@ -19,4 +19,6 @@ app.listen(PORT, () => {
 })
 
 const userRouter = require('./routes/userRoutes')
+const imageRouter = require('./routes/imageRoutes')
 app.use('/users', userRouter)
+app.use('/images', imageRouter)
