@@ -51,8 +51,10 @@ userController.login = async (req,res) => {
 
 userController.getInfo = async (req, res) => {
     try{
-        const ecryptedId = req.headers.authorization
+        const encryptedId = req.headers.authorization
+        console.log(encryptedId)
         const decryptedId = await jwt.verify(encryptedId, process.env.JWT_SECRET)
+        console.log(decryptedId)
         const user = await model.user.findOne({
             where: {
                 id: decryptedId.userId
@@ -65,9 +67,9 @@ userController.getInfo = async (req, res) => {
         res.json({
             error
         })
-        console.log('decryption failed')
+
     }
-    console.log('decryption succeeded')
+
 }
 
 userController.authCheck = async (req,res) => {
