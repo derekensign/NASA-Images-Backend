@@ -12,13 +12,21 @@ imageController.create = async (req, res) => {
         return
     }
 
-    const newFavImage = await models.image.findOrCreate({
+    const [newFavImage, found] = await models.image.findOrCreate({ where: 
+        {
+            title: req.body.title,  
+        }, defaults:
+        {
+        imageurl: req.body.imageurl,
+        category: req.body.category,
         title: req.body.title,
-        imageUrl: req.body.url,
-        description: req.body.description
+        description: req.body.description,
+        copyright: req.body.copyright
+        }
     })
 
-    await user.addImages(newFavImage)
+
+    await user.addImage(newFavImage)
 
     res.json({ newFavImage })
     } catch (error) {
@@ -26,7 +34,7 @@ imageController.create = async (req, res) => {
     }
 }
 
-imageController.destory = async (req, res) => {
+imageController.destroy = async (req, res) => {
     try {
         const user = await models.user.findOne({
             where: {
