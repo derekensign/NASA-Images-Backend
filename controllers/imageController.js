@@ -41,9 +41,14 @@ imageController.destroy = async (req, res) => {
                 id: req.headers.authorization
             }
         })
+        const image = await models.image.findOne({
+            where: {
+                title: req.params.title
+            }
+        })
         const deleteFavorite = await models.userFavorite.destroy({
             where: {
-                title: req.params.title,
+                imageId: image.id,
                 userId: user.id
             }
         })
