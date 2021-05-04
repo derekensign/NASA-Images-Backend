@@ -54,4 +54,19 @@ imageController.destroy = async (req, res) => {
     }
 }
 
+imageController.allFavs = async (req, res) => {
+    try {
+        const user = await models.user.findOne({
+            where: {
+                id: req.headers.authorization
+            }
+        })
+
+        const favImages = await user.getImages() 
+        res.json({ favImages })
+    } catch (error) {
+        res.status(400).json({ error: error.message })
+    }
+}
+
 module.exports = imageController
