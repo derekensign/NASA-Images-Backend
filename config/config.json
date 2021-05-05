@@ -1,6 +1,6 @@
 {
   "development": {
-    "database": "u2_deploy_dev",
+    "database": "nasa_dev",
     "host": "127.0.0.1",
     "dialect": "postgres"
   },
